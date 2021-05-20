@@ -1,9 +1,9 @@
 import React from 'react';
 import Button from './LoadButton.jsx';
-import { dataTypes } from '../const.js';
+import { DATA_TYPES } from './../const.js';
 
 const Main =() => {
-  const buttons = dataTypes.map((dataType) => { 
+  const buttons = DATA_TYPES.map((dataType) => { 
     return (
       <Button 
         key={`button_${dataType}`}
@@ -17,6 +17,6 @@ const Main =() => {
       {buttons}
     </>
   );
-}
+};
 
 export default Main;
