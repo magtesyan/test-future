@@ -9,3 +9,8 @@ export const DATA_URL = `http://www.filltext.com/?id={number|1000}&firstName={fi
 export const TABLE_HEADINGS = [`id`, `firstName`, `lastName`, `email`, `phone`];
 
 export const PAGINATION_PAGE_SIZE = 10;
+
+export const SORT_TYPES = {
+  ASC: `asc`,
+  DESC: `desc`
+};
