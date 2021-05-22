@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { TABLE_HEADINGS, PAGINATION_PAGE_SIZE, SORT_TYPES } from './../const.js';
 import Paginator from './Paginator.jsx';
+import InfoBlock from './InfoBlock.jsx';
 
 const Table = (props) => {
   const [state, setState] = useState({
@@ -8,6 +9,7 @@ const Table = (props) => {
     filteredData: props.filteredData,
     sorted: `asc`,
     selectedColumn: null,
+    infoBlockPerson: {},
   });
 
   useEffect(() => {
@@ -35,6 +37,13 @@ const Table = (props) => {
     });
   };
 
+  const onRowClick = (person) => {
+    setState({
+      ...state,
+      infoBlockPerson: person,
+    });
+  }
+
   const headings = TABLE_HEADINGS.map((heading) => {
     const sortedDefault = state.selectedColumn === heading ? state.sorted : SORT_TYPES.DESC;
     return (
@@ -51,7 +60,7 @@ const Table = (props) => {
 
   const content = (getCurrentPagePersons(props.filteredData, PAGINATION_PAGE_SIZE, state.currentPage)).map((person) => {
     return (
-      <tr key={`${person.id}-${person.email}`}>
+      <tr key={`${person.id}-${person.email}`} onClick={() => onRowClick(person)}>
         <td>{person.id}</td>
         <td>{person.firstName}</td>
         <td>{person.lastName}</td>
@@ -78,6 +87,9 @@ const Table = (props) => {
         totalItemsCount={totalPersonsCount}
         pageSize={PAGINATION_PAGE_SIZE}
       />
+      {Object.keys(state.infoBlockPerson).length && <InfoBlock
+        person={state.infoBlockPerson}
+      />}
     </>
   );
 };
