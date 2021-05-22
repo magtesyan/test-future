@@ -1,16 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TABLE_HEADINGS, PAGINATION_PAGE_SIZE, SORT_TYPES } from './../const.js';
 import Paginator from './Paginator.jsx';
 
 const Table = (props) => {
   const [state, setState] = useState({
     currentPage: 1,
-    data: props.data,
+    filteredData: props.filteredData,
     sorted: `asc`,
     selectedColumn: null,
   });
 
-  const totalPersonsCount = state.data.length;
+  useEffect(() => {
+    setState({
+      ...state,
+      filteredData: props.filteredData,
+    })},
+  [props.filteredData]);
+
+  const totalPersonsCount = state.filteredData.length;
 
   const onPageChanged = (page) => setState({
     ...state,
@@ -22,11 +29,11 @@ const Table = (props) => {
     const sortParameter = sortedData === SORT_TYPES.ASC ? 1 : -1;
     setState({
       ...state,
-      data: state.data.sort((personA, personB) => personA[column] > personB[column] ? sortParameter : -sortParameter),
+      filteredData: state.filteredData.sort((personA, personB) => personA[column] > personB[column] ? sortParameter : -sortParameter),
       sorted: sortedData,
       selectedColumn: column,
     });
-  }
+  };
 
   const headings = TABLE_HEADINGS.map((heading) => {
     const sortedDefault = state.selectedColumn === heading ? state.sorted : SORT_TYPES.DESC;
@@ -40,9 +47,9 @@ const Table = (props) => {
   const getCurrentPagePersons = (data, pageSize, currentPage) => {
     const lastPerson = pageSize * currentPage;
     return data.slice(lastPerson - pageSize, lastPerson)
-  }
+  };
 
-  const content = (getCurrentPagePersons(props.data, PAGINATION_PAGE_SIZE, state.currentPage)).map((person) => {
+  const content = (getCurrentPagePersons(props.filteredData, PAGINATION_PAGE_SIZE, state.currentPage)).map((person) => {
     return (
       <tr key={`${person.id}-${person.email}`}>
         <td>{person.id}</td>
