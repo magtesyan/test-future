@@ -2,7 +2,7 @@ import React from 'react';
 import history from "./../history";
 import { Switch, Route, Router } from 'react-router-dom';
 import Main from './Main.jsx';
-import Data from './Data.jsx';
+import Data from './Data/Data.jsx';
 import { DATA_TYPES } from './../const.js';
 
 const App =() => {

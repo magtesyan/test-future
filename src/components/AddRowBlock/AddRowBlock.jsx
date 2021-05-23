@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
-import TableHeadings from './TableHeadings';
+import TableHeadings from '../TableHeadings/TableHeadings';
+import classes from './AddRowBlock.module.css';
 
 const AddRowBlock = (props) => {
   const inputId = useRef(null);
@@ -93,7 +94,7 @@ const AddRowBlock = (props) => {
 
   return (
     <>
-      <table>
+      <table className={classes.table}>
         <TableHeadings
           onSortDate={() => {}}
           selectedColumn={``}
@@ -109,8 +110,8 @@ const AddRowBlock = (props) => {
           </tr>
         </tbody>
       </table>
-      <div>{state.error}</div>
-      <button
+      <div className={classes.error}>{state.error}</div>
+      <button className={classes.button}
         onClick={() => validateAllFields(
           inputId.current.value,
           inputFirsName.current.value,

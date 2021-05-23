@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { getData } from './../api.js';
-import { TABLE_HEADINGS } from './../const.js';
-import history from "./../history";
-import Table from './Table.jsx';
-import preloader from './../assets/preloader.gif';
-import AddRowBlock from './AddRowBlock.jsx';
-import Filter from './Filter.jsx';
+import { getData } from '../../api.js';
+import { TABLE_HEADINGS } from '../../const.js';
+import history from "../../history";
+import Table from '../Table/Table.jsx';
+import preloader from './../../assets/preloader.gif';
+import AddRowBlock from '../AddRowBlock/AddRowBlock.jsx';
+import Filter from '../Filter/Filter.jsx';
+import classes from './Data.module.css';
 
 const Data = (props) => {
   const [state, setState] = useState({
@@ -63,7 +64,7 @@ const Data = (props) => {
     <div>
       <div>
         <Link to="/">Main</Link>
-        <button onClick={() => onAddRowBtnClicked()}>Add Row Form</button>
+        <button className={classes.button} onClick={() => onAddRowBtnClicked()}>Add Row Form</button>
       </div>
       {state.addRowBlock && <AddRowBlock onRowAdd={onRowAdd} /> }
       <Filter onFilterChange={onFilterChange} />

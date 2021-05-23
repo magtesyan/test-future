@@ -1,0 +1,36 @@
+.tr {
+  background: #1e90ff;
+}
+
+.button {
+  position: relative;
+  padding: 10px 0;
+  text-align: center;
+  font-weight: bold;
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.button:hover {
+  text-decoration: underline;
+}
+
+.desc::after {
+  content: ''; 
+  position: absolute; /* Абсолютное позиционирование */
+  right: -20px;
+  bottom: 5px;
+  border: 8px solid transparent;
+  border-top: 8px solid #ffffff;
+}
+
+.asc::after {
+  content: ''; 
+  position: absolute; /* Абсолютное позиционирование */
+  right: -20px;
+  bottom: 13px;
+  border: 8px solid transparent;
+  border-bottom: 8px solid #ffffff;
+}

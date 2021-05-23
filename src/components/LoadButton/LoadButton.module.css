@@ -1,0 +1,13 @@
+a {
+  display: block;
+  max-width: 150px;
+  margin-bottom: 20px;
+  padding: 10px 20px;
+  text-align: center;
+  font-weight: bold;
+  text-decoration: none;
+  background: #1e90ff;
+  color: #ffffff;
+  border: 1px solid #ffffff;
+  border-radius: 5px;
+}
