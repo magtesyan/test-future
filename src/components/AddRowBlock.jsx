@@ -19,7 +19,7 @@ const AddRowBlock = (props) => {
         error: `The field ${fieldName} is required`
       });
     }
-  }
+  };
 
   const validateNumberField = (value, fieldName) => {
     validateEmptyField(value, fieldName);

@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useRef } from 'react';
 
 const Filter = (props) => {
+  const inputFind = useRef(null);
+
   return (
     <>
-      <input type="text" onChange={(evt) => {props.onFilterChange(evt.target.value)}} />
+      <input ref={inputFind} type="text" />
+      <button onClick={() => {props.onFilterChange(inputFind.current.value)}}>Find</button>
     </>
   );
 };
