@@ -14,45 +14,45 @@ const AddRowBlock = (props) => {
   });
 
   const validateEmptyField = () => {
-    if (inputPhone.current.value.length === 13 &&
+    if (inputPhone.current.value.length > 0 &&
       inputId.current.value.length > 0 &&
       inputLastName.current.value.length > 0 &&
       inputFirsName.current.value.length > 0 &&
       inputEmail.current.value.length > 0) {
-      return true;
-      } 
+        setState({
+          ...state,
+          error: ``, 
+        });
+      } else {
+        setState({
+          ...state,
+          error: `Fill the form`, 
+        });
+      }
+  };
+
+  const validateAll = () => {
+    return validateNumberField(inputId.current.value, `id`) +
+    validateLetterField(inputFirsName.current.value, `inputFirsName`) +
+    validateLetterField(inputLastName.current.value, `inputLastName`) +
+    validateEmailField(inputEmail.current.value, `inputEmail`) +
+    validatePhoneField(inputPhone.current.value, `inputPhone`);
   };
 
   const validateNumberField = (value, fieldName) => {
-    setState({
-      ...state,
-      error: !value || value.match(/^[0-9]+$/) === null ? `The field ${fieldName} shoud contain only digits` : ``, 
-    });
-    validateEmptyField();
+    return !value || value.match(/^[0-9]+$/) === null ? `The field ${fieldName} should contain only digits | ` : ``;
   };
 
   const validateLetterField = (value, fieldName) => {
-    setState({
-      ...state,
-      error: !value || value.match(/^[a-zA-z]+$/) === null ? `The field ${fieldName} shoud contain only letters` : ``
-    });
-    validateEmptyField();
+    return !value || value.match(/^[a-zA-z]+$/) === null ? `The field ${fieldName} should contain only letters | ` : ``;
   };
 
   const validateEmailField = (value, fieldName) => {
-    setState({
-      ...state,
-      error: !value || value.match(/\S+@\S+\.\S+/) === null ? `The field ${fieldName} shoud be email format` : ``
-    });
-    validateEmptyField();
+    return !value || value.match(/\S+@\S+\.\S+/) === null ? `The field ${fieldName} should be email format | ` : ``;
   };
 
   const validatePhoneField = (value, fieldName) => {
-    setState({
-      ...state,
-      error: !value || value.length !== 13 ? `The field ${fieldName} shoud be phone format` : ``
-    });
-    validateEmptyField();
+    return !value || value.length !== 13 ? `The field ${fieldName} should be phone format | ` : ``;
   };
 
   const onPhoneChange = (value) => {
@@ -62,18 +62,26 @@ const AddRowBlock = (props) => {
     inputPhone.current.value += value.length > 4 ? `)${numbersFromValue.slice(3,6)}` : ``;
     inputPhone.current.value += value.length > 8 ? `-${numbersFromValue.slice(6)}` : ``;
     inputPhone.current.value = inputPhone.current.value.length > 13 ? inputPhone.current.value.slice(0,13) : inputPhone.current.value;
-    validatePhoneField(inputPhone.current.value, `phone`);
+    validateEmptyField();
   };
 
   const onAddBtnClick = () => {
-    const newRow = {
-      id: inputId.current.value,
-      firstName: inputFirsName.current.value,
-      lastName: inputLastName.current.value,
-      email: inputEmail.current.value,
-      phone: inputPhone.current.value
-    };
-    props.onRowAdd(newRow);
+    const validationResult = validateAll();
+    if (validationResult !== ``) {
+      setState({
+          ...state,
+          error: validationResult
+        });
+    } else {
+      const newRow = {
+        id: inputId.current.value,
+        firstName: inputFirsName.current.value,
+        lastName: inputLastName.current.value,
+        email: inputEmail.current.value,
+        phone: inputPhone.current.value
+      };
+      props.onRowAdd(newRow);
+    }
   };
 
   return (
@@ -86,16 +94,16 @@ const AddRowBlock = (props) => {
         />
         <tbody>
           <tr>
-            <td><input ref={inputId} onChange={() => validateNumberField(inputId.current.value, `id`)} type="text" /></td>
-            <td><input ref={inputFirsName} onChange={() => validateLetterField(inputFirsName.current.value, `inputFirsName`)} type="text" /></td>
-            <td><input ref={inputLastName} onChange={() => validateLetterField(inputLastName.current.value, `inputLastName`)} type="text" /></td>
-            <td><input ref={inputEmail} onChange={() => validateEmailField(inputEmail.current.value, `inputEmail`)} type="text" /></td>
+            <td><input ref={inputId} onChange={() => validateEmptyField()} type="text" /></td>
+            <td><input ref={inputFirsName} onChange={() => validateEmptyField()} type="text" /></td>
+            <td><input ref={inputLastName} onChange={() => validateEmptyField()} type="text" /></td>
+            <td><input ref={inputEmail} onChange={() => validateEmptyField()} type="text" /></td>
             <td><input ref={inputPhone} onChange={() => onPhoneChange(inputPhone.current.value)} type="text" /></td>
           </tr>
         </tbody>
       </table>
       <div className={classes.error}>{state.error}</div>
-      {state.error === `` && validateEmptyField() && <button className={`${classes.button} ${state.addButton}`}
+      {state.error === `` && <button className={`${classes.button} ${state.addButton}`}
         onClick={() => onAddBtnClick()}>Add Row</button> }
     </>
   );
