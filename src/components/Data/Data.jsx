@@ -68,7 +68,7 @@ const Data = (props) => {
       </div>
       {state.addRowBlock && <AddRowBlock onRowAdd={onRowAdd} /> }
       <Filter onFilterChange={onFilterChange} />
-      {state.isLoading && <img src={preloader} alt="preloader" />}
+      {state.isLoading && <img className={classes.img} src={preloader} alt="preloader" />}
       {!state.isLoading && state.data && <Table filteredData={state.filteredData} />}
       {!state.data && history.push('/')}
     </div>
