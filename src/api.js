@@ -19,9 +19,14 @@ const addParamsToUrl = (dataType) => {
 }
 
 const getData = async (dataType) => {
-  const url = addParamsToUrl(dataType);
-  const res = await fetch(url);
-  return res.ok ? await res.json() : `Error ${res.status}`;
+  try {
+    const url = addParamsToUrl(dataType);
+    const res = await fetch(url);
+    return res.ok ? await res.json() : `Error ${res.status}`;
+  } catch (err) {
+    alert(err);
+    return false;
+  }
 };
 
 export { getData }

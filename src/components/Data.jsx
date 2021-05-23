@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getData } from './../api.js';
 import { TABLE_HEADINGS } from './../const.js';
+import history from "./../history";
 import Table from './Table.jsx';
 import preloader from './../assets/preloader.gif';
+import AddRowBlock from './AddRowBlock.jsx';
 import Filter from './Filter.jsx';
 
 const Data = (props) => {
@@ -11,6 +13,7 @@ const Data = (props) => {
     isLoading: true,
     data: {},
     filteredData: {},
+    addRowBlock: false,
   });
 
   const onFilterChange = (text) => {
@@ -28,6 +31,13 @@ const Data = (props) => {
     });
   };
 
+  const onAddRowBtnClicked = () => {
+    setState({
+      ...state,
+      addRowBlock: !state.addRowBlock,
+    });
+  }
+
   
   state.isLoading && getData(props.dataType)
   .then((res) => {
@@ -38,14 +48,18 @@ const Data = (props) => {
     });
   });
 
+  
   return (
     <div>
       <div>
         <Link to="/">Main</Link>
+        <button onClick={() => onAddRowBtnClicked()}>Add Row Form</button>
       </div>
+      {state.addRowBlock && <AddRowBlock /> }
       <Filter onFilterChange={onFilterChange} />
       {state.isLoading && <img src={preloader} alt="preloader" />}
-      {!state.isLoading && <Table filteredData={state.filteredData} />}
+      {!state.isLoading && state.data && <Table filteredData={state.filteredData} />}
+      {state.data && history.push('/')}
     </div>
   );
 };
