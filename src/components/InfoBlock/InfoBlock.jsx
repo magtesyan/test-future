@@ -1,10 +1,11 @@
 import React from 'react';
+import classes from './InfoBlock.module.css';
 
 const InfoBlock = (props) => {
   return (
-    <div>
+    <div className={classes.div}>
       <div>Выбран пользователь: <b>{props.person.firstName} {props.person.lastName}</b></div>
-      <textarea value={props.person.description} readOnly />
+      <textarea className={classes.textarea} value={props.person.description} readOnly />
       <div>Адрес проживания: <b>{props.person.address.streetAddress}</b></div>
       <div>Город: <b>{props.person.address.city}</b></div>
       <div>Провинция/штат: <b>{props.person.address.state}</b></div>

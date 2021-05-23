@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { PAGINATION_PAGE_SIZE, SORT_TYPES } from '../../const.js';
 import Paginator from '../Paginator/Paginator.jsx';
-import InfoBlock from '../InfoBlock.jsx';
+import InfoBlock from '../InfoBlock/InfoBlock.jsx';
 import TableHeadings from '../TableHeadings/TableHeadings.jsx';
 import classes from './Table.module.css';
 
