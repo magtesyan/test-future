@@ -38,6 +38,16 @@ const Data = (props) => {
     });
   }
 
+  const onRowAdd = (row) => {
+    const dataCopy = state.data.slice();
+    dataCopy.unshift(row);
+    setState({
+      ...state,
+      data: dataCopy,
+      filteredData: dataCopy
+    });
+  }
+
   
   state.isLoading && getData(props.dataType)
   .then((res) => {
@@ -55,11 +65,11 @@ const Data = (props) => {
         <Link to="/">Main</Link>
         <button onClick={() => onAddRowBtnClicked()}>Add Row Form</button>
       </div>
-      {state.addRowBlock && <AddRowBlock /> }
+      {state.addRowBlock && <AddRowBlock onRowAdd={onRowAdd} /> }
       <Filter onFilterChange={onFilterChange} />
       {state.isLoading && <img src={preloader} alt="preloader" />}
       {!state.isLoading && state.data && <Table filteredData={state.filteredData} />}
-      {state.data && history.push('/')}
+      {!state.data && history.push('/')}
     </div>
   );
 };

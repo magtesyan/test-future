@@ -1,7 +1,6 @@
 import React from 'react';
 
 const InfoBlock = (props) => {
-  console.log(props.person)
   return (
     <div>
       <div>Выбран пользователь: <b>{props.person.firstName} {props.person.lastName}</b></div>

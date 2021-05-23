@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { TABLE_HEADINGS, PAGINATION_PAGE_SIZE, SORT_TYPES } from './../const.js';
+import { PAGINATION_PAGE_SIZE, SORT_TYPES } from './../const.js';
 import Paginator from './Paginator.jsx';
 import InfoBlock from './InfoBlock.jsx';
+import TableHeadings from './TableHeadings.jsx';
 
 const Table = (props) => {
   const [state, setState] = useState({
     currentPage: 1,
     filteredData: props.filteredData,
-    sorted: `asc`,
+    sorted: SORT_TYPES.ASC,
     selectedColumn: null,
     infoBlockPerson: {},
   });
@@ -44,15 +45,6 @@ const Table = (props) => {
     });
   }
 
-  const headings = TABLE_HEADINGS.map((heading) => {
-    const sortedDefault = state.selectedColumn === heading ? state.sorted : SORT_TYPES.DESC;
-    return (
-      <td key={heading}>
-        <button className={sortedDefault} onClick={() => onSortDate(heading, sortedDefault)}>{heading}</button>
-      </td>
-    );
-  });
-
   const getCurrentPagePersons = (data, pageSize, currentPage) => {
     const lastPerson = pageSize * currentPage;
     return data.slice(lastPerson - pageSize, lastPerson)
@@ -60,7 +52,7 @@ const Table = (props) => {
 
   const content = (getCurrentPagePersons(props.filteredData, PAGINATION_PAGE_SIZE, state.currentPage)).map((person) => {
     return (
-      <tr key={`${person.id}-${person.email}`} onClick={() => onRowClick(person)}>
+      <tr key={`${person.id}-${person.email}-${Math.random()}`} onClick={() => onRowClick(person)}>
         <td>{person.id}</td>
         <td>{person.firstName}</td>
         <td>{person.lastName}</td>
@@ -74,9 +66,11 @@ const Table = (props) => {
   return (
     <>
       <table>
-        <thead>
-          <tr>{headings}</tr>
-        </thead>
+        <TableHeadings
+          onSortDate={onSortDate}
+          selectedColumn={state.selectedColumn}
+          sorted={state.sorted}
+        />
         <tbody>
           {content}
         </tbody>
@@ -87,7 +81,8 @@ const Table = (props) => {
         totalItemsCount={totalPersonsCount}
         pageSize={PAGINATION_PAGE_SIZE}
       />
-      {Object.keys(state.infoBlockPerson).length && <InfoBlock
+      {Object.keys(state.infoBlockPerson).length !== 0 && 
+      <InfoBlock
         person={state.infoBlockPerson}
       />}
     </>
